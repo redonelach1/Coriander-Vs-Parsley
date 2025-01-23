@@ -127,3 +127,6 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend(['Train', 'Validation'], loc='upper left')
 plt.show()
+
+
+model.save("coriander_vs_parsley.h5")
