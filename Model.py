@@ -5,6 +5,9 @@ from pathlib import Path
 from tensorflow.keras import layers, models
 from tensorflow.keras.utils import image_dataset_from_directory
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.applications import VGG16
+
+
 import matplotlib.pyplot as plt
 
 train_dir = "./train/"
@@ -62,27 +65,27 @@ val_dataset = val_dataset.prefetch(buffer_size=10)
 
 
 
+base_model = VGG16(weights="imagenet", include_top=False, input_shape=(150,150,3))
+base_model.trainable = False
+
 model = models.Sequential(
     [
-        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)),
-        layers.MaxPooling2D((2, 2)),
-
-        layers.Conv2D(64, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2,2)),
-
-        layers.Conv2D(128, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2, 2)),
-
+        base_model,
         layers.Flatten(),
 
-        layers.Dense(64, activation='relu'),
+        layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
         layers.Dropout(0.5),
 
         
-        layers.Dense(256, activation='relu'),
+        layers.Dense(256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
         layers.Dropout(0.5),
 
-        layers.Dense(1, activation='sigmoid')
+
+        
+        layers.Dense(512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),
+        layers.Dropout(0.5),
+
+        layers.Dense(1, activation='sigmoid', kernel_regularizer=tf.keras.regularizers.l2(0.01))
     ] 
     )
 
@@ -96,7 +99,7 @@ model.compile(
 history = model.fit(
     train_dataset,
     validation_data=val_dataset,
-    epochs=10,
+    epochs=15,
     verbose=1
 )
 
