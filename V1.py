@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 from tensorflow.keras import layers, models
 from tensorflow.keras.utils import image_dataset_from_directory
-from tensorflow.keras.optimizers import Adam
 import matplotlib.pyplot as plt
 
 train_dir = "./train/"
@@ -75,19 +74,15 @@ model = models.Sequential(
 
         layers.Flatten(),
 
-        layers.Dense(64, activation='relu'),
-        layers.Dropout(0.5),
-
-        
-        layers.Dense(256, activation='relu'),
-        layers.Dropout(0.5),
+        layers.Dense(128, activation='relu'),
+        layers.Dropout(0.4),
 
         layers.Dense(1, activation='sigmoid')
     ] 
     )
 
 model.compile(
-    optimizer=Adam(learning_rate=0.0001),
+    optimizer="adam",
     loss="binary_crossentropy",
     metrics=["accuracy"]
     )
