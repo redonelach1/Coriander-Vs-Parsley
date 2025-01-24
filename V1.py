@@ -119,3 +119,6 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend(['Train', 'Validation'], loc='upper left')
 plt.show()
+
+
+model.save("visuals.h5")

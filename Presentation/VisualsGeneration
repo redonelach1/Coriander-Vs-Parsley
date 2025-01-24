@@ -1,0 +1,10 @@
+from tensorflow.keras.models import load_model
+from tensorflow.keras.utils import load_img, img_to_array
+from PIL import Image, ImageDraw, ImageFont
+import numpy as np
+import visualkeras
+
+model = load_model("visuals.h5")
+
+font = ImageFont.truetype("arial.ttf", 32)  
+visualkeras.layered_view(model, legend=True, font = font).save("Archi.png")  # font is optional!

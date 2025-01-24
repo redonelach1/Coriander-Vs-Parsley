@@ -17,11 +17,11 @@ image_paths = ["PredictTest/coriander1.png",
                "PredictTest/coriander2.jpg",
                "PredictTest/coriander3.png",
                "PredictTest/parsley1.jpg",
-               "PredictTest/parsley2.png",
                "PredictTest/parsley3.png",
                "PredictTest/parsley4.png"]
 class_labels = ["Coriander","Parsley"]
 
+i = 1
 for img_path in image_paths:
     img_array = preproccess_image(img_path)
 
@@ -33,4 +33,5 @@ for img_path in image_paths:
     center = img.size[0] // 2
     draw = ImageDraw.Draw(img)
     draw.text(xy=(center-30,160),text=f"{predicted_class}",fill=(0,0,0), font=ImageFont.truetype("arial.ttf", 50))
-    img.show()
+    img.save(f"PredictTest/output/output{i}.png")
+    i += 1
